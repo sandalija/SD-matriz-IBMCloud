@@ -20,14 +20,16 @@ def comprobarRangos(matriz1, matriz2):
     print (matriz1.shape)
     print ("Filas de 1" + str(a))
 
-def guardarMatriz(matriz):
+def guardarMatriz(matriz, bucket, name_matrix):
     cos = COS_Backend()
-    bucket = 'deposit-sd-2020'
+    #bucket = 'deposit-sd-2020'
     serialized = pickle.dumps(matriz, protocol=0) # protocol 0 is printable ASCII
-    cos.put_object(bucket, 'matriz', serialized)
+    cos.put_object(bucket, name_matrix, serialized)
     exit()
 
-def asyncGuardarMatriz(matriz):
+def asyncGuardarMatriz(matriz, bucket, name_matrix):
     ibmcf = pywren.ibm_cf_executor()
-    ibmcf.call_async(guardarMatriz, matriz)
-    print(ibmcf.get_result())
+    params = [matriz, bucket, name_matrix]
+    print (params)
+    ibmcf.call_async(guardarMatriz, params)
+    print("H")

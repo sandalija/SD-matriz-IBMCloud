@@ -6,6 +6,7 @@ from COS_backend import COS_Backend
 def obtenerMatriz(bucket, matriz):
     cos = COS_Backend()
     #filename = cos.get(matriz)
+    print ("Key: " + matriz)
     data = cos.get_object(bucket, matriz)
     desceralized = pickle.loads(data)
     return (desceralized)
@@ -23,11 +24,20 @@ def listaWorkers(size, workers):
 
 def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
     matriz1 = obtenerMatriz(bucket, keyMatriz1)
-    matriz2 = obtenerMatriz(keyMatriz2)
+    matriz2 = obtenerMatriz(bucket, keyMatriz2)
     # Comprobar el tamaño de la matriz
     columns1 = matriz1.shape[0]
+    rows1 = matriz1.shape[0]
     rows2 = matriz2.shape[1]
+    print ("Columnas de 1: " + str(columns1))
+    print ("Filas de 2:" + str(rows2))
+    if (columns1 != rows2): # No se puede mutiplicar
+        # Add exception (?)
+        print ("Matrix not operable")
+        exit()
+    else:
+        positions = listaWorkers(rows1, 1)
+        for i in positions:
+            print (i[0]), i[1]))
 
 
-bucket = 'deposit-sd-2020'
-callWorkerFuncion(6, bucket, 'matriz', 'p')
