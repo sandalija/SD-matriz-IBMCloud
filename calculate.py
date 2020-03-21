@@ -38,6 +38,6 @@ def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
     else:
         positions = listaWorkers(rows1, 1)
         for i in positions:
-            print (i[0]), i[1]))
+            a = matriz1[np.ix_([i[0]])]
 
 
