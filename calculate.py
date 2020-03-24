@@ -43,16 +43,29 @@ def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
         # obtener las filas de la matriz1
         filas = []
         columnas = []
+        matriz_result = np.zeros(shape = matriz1.shape)
         for pos in positions:
             for i in range(0, rows1):
                 if (i >= pos[0] and i <= pos[1]):
                     filas.append(matriz1[i])
                     columnas.append(matriz2_trans[i])
             # los workers van aquí
+            for i in range(0, rows1):
+                for j in range(0, columns1):
+                    matriz_result[i][j] 
+
         print ("FILAS:")
         print (filas)
         print ("COLUMNAS")
         print (columnas)
 
-
-
+def mapCandidate(filas, columnas):
+    n = 0
+    if (len(filas) != len(columnas)):
+        # ERROR
+        # Add exception (?)
+        return -1
+    else:
+        for i in range(0, len(filas)):
+            n = n + filas[i]*columnas[i]
+    return n
