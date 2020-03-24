@@ -48,6 +48,7 @@ def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
                 if (i >= pos[0] and i <= pos[1]):
                     filas.append(matriz1[i])
                     columnas.append(matriz2_trans[i])
+            # los workers van aquí
         print ("FILAS:")
         print (filas)
         print ("COLUMNAS")
