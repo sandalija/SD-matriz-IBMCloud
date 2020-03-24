@@ -27,7 +27,8 @@ def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
     matriz2 = obtenerMatriz(bucket, keyMatriz2)
     # Comprobar el tamaño de la matriz
     columns1 = matriz1.shape[0]
-    rows1 = matriz1.shape[0]
+    rows1 = matriz1.shape[1]
+    columns2 = matriz2.shape[0]
     rows2 = matriz2.shape[1]
     print ("Columnas de 1: " + str(columns1))
     print ("Filas de 2:" + str(rows2))
@@ -37,7 +38,20 @@ def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
         exit()
     else:
         positions = listaWorkers(rows1, 1)
-        for i in positions:
-            a = matriz1[np.ix_([i[0]])]
+        matriz2_trans = matriz2.transpose()
+        print (positions)
+        # obtener las filas de la matriz1
+        filas = []
+        columnas = []
+        for pos in positions:
+            for i in range(0, rows1):
+                if (i >= pos[0] and i <= pos[1]):
+                    filas.append(matriz1[i])
+                    columnas.append(matriz2_trans[i])
+        print ("FILAS:")
+        print (filas)
+        print ("COLUMNAS")
+        print (columnas)
+
 
 
