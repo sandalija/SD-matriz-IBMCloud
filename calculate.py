@@ -58,14 +58,3 @@ def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
         print (filas)
         print ("COLUMNAS")
         print (columnas)
-
-def mapCandidate(filas, columnas):
-    n = 0
-    if (len(filas) != len(columnas)):
-        # ERROR
-        # Add exception (?)
-        return -1
-    else:
-        for i in range(0, len(filas)):
-            n = n + filas[i]*columnas[i]
-    return n
