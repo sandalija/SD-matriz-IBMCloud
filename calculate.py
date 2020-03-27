@@ -58,3 +58,34 @@ def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
         print (filas)
         print ("COLUMNAS")
         print (columnas)
+
+# Recibe la los nombres de los buckets que leerá desde el IBM COS
+def map_function(a_submatrix, b_submatrix):
+    a_sub = obtenerMatriz('deposit-sd-2020', a_submatrix)
+    b_sub = obtenerMatriz('deposit-sd-2020', b_submatrix)
+    """print ("A matrix")
+    print (a_sub)
+    print ("B matrix")
+    print (b_sub)"""
+    result = 0
+    for i in range(0, len(a_sub)):
+        result = a_sub[i]*b_sub[i] + result
+    return result
+
+def mapFunctionSecuencial(a_submatrix, b_submatrix):
+    a_sub = obtenerMatriz('deposit-sd-2020', a_submatrix[0])
+    b_sub = obtenerMatriz('deposit-sd-2020', b_submatrix[0])
+    print ("A matrix")
+    print (a_sub)
+    print ("B matrix")
+    print (b_sub)
+    columns = a_sub.shape[0]
+    rows = b_sub.shape[1]
+    c = np.zeros(shape=(rows,columns))
+    print (c)
+    result = 0
+    for i in range(0, len(a_sub)):
+        for j in range (0, len(b_sub)):
+            for k in range (0, len(c)):
+                c[j, i] = c[j, i] + a_sub[j, k]*b_sub[k, i]
+    return c

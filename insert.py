@@ -18,7 +18,7 @@ def comprobarRangos(matriz1, matriz2):
 def guardarMatriz(matriz, name_matrix):
     cos = COS_Backend()
     bucket = 'deposit-sd-2020'
-    serialized = pickle.dumps(matriz, protocol=0) # protocol 0 is printable ASCII
+    serialized = pickle.dumps(matriz[0], protocol=0) # protocol 0 is printable ASCII
     cos.put_object(bucket, name_matrix, serialized)
     exit()
 
@@ -43,7 +43,7 @@ def dividirMatriz(matriz, n_workers, transpose):
     m = 0
     name_matrix = ''
     list_matrix = []    # lista con los nombres de las martices en el IBM Cloud COS
-    while i <= submatrix_len:
+    while i < submatrix_len:
         name_matrix = stamp + root_name + str(m)
         list_matrix.append(name_matrix)
         #print ("De " + str(i) + " a " + str(int(submatrix_len/n_workers)+i - 1))
