@@ -18,7 +18,7 @@ def comprobarRangos(matriz1, matriz2):
 def guardarMatriz(matriz, name_matrix):
     cos = COS_Backend()
     bucket = 'deposit-sd-2020'
-    serialized = pickle.dumps(matriz[0], protocol=0) # protocol 0 is printable ASCII
+    serialized = pickle.dumps(matriz, protocol=0) # protocol 0 is printable ASCII
     cos.put_object(bucket, name_matrix, serialized)
     exit()
 
@@ -27,7 +27,6 @@ def asyncGuardarMatriz(matriz, name_matrix):
     params = [matriz, name_matrix]
     print (params)
     ibmcf.call_async(guardarMatriz, params)
-    print("H")
 
 # Invoca a guardarMatrix(..) por cada worker.
 # Retorna una lista con los nombres de los ficheros que contiene cada parte de la matriz

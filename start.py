@@ -22,17 +22,28 @@ for a_elem in a_matrix_list:
         print ("\n\n\****************n\n\n")
     print ("\n\n\++++++++++++++++++n\n\n")
 """
+
+## SECUENCIAL
 a = i.crearMatriz(4, 4, 10)
 b = i.crearMatriz(4, 4, 10)
 a_matrix_list = i.dividirMatriz(a, 1, False)
-print (a_matrix_list)
 b_matrix_list = i.dividirMatriz(b, 1, True) # True para trasponerla 
-c.mapFunctionSecuencial(a_matrix_list, b_matrix_list)
+pw = pywren.ibm_cf_executor()
+pw.map(c.mapFunctionSecuencial, (a_matrix_list, b_matrix_list))
+print(pw.get_result())
+pw.clean()
 
-pywren.clean()
-
-
-
+## PARALELA
+a = i.crearMatriz(4, 4, 10)
+b = i.crearMatriz(4, 4, 10)
+a_matrix_list = i.dividirMatriz(a, 2, False)
+b_matrix_list = i.dividirMatriz(b, 2, True) # True para trasponerla 
+pw = pywren.ibm_cf_executor()
+# map reduce y tal
+# map está hecha
+# reduce juntaria submatrices
+print(pw.get_result())
+pw.clean()
 
 print ("FIN")
 
