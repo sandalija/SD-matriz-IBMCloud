@@ -8,7 +8,6 @@ def crearMatriz(fila, col, maxValue):
     if (maxValue is None):
         maxValue = 100
     random_matrix_array = np.random.randint(0,maxValue,size=(fila,col))
-    matriz = random_matrix_array
     return random_matrix_array
 
 def comprobarRangos(matriz1, matriz2):

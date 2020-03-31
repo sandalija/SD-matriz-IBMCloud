@@ -6,7 +6,6 @@ from COS_backend import COS_Backend
 def obtenerMatriz(bucket, matriz):
     cos = COS_Backend()
     #filename = cos.get(matriz)
-    print ("Key: " + matriz)
     data = cos.get_object(bucket, matriz)
     desceralized = pickle.loads(data)
     return (desceralized)
@@ -74,13 +73,36 @@ def map_function(a_submatrix, b_submatrix):
 
 # Hecho
 def mapFunctionSecuencial(a_submatrix, b_submatrix):
+    a_sub = obtenerMatriz('deposit-sd-2020', a_submatrix)
+    b_sub = obtenerMatriz('deposit-sd-2020', b_submatrix)
+    print ("A shape " + str(a_sub.shape))
+    print ("B shape "+ str(b_sub.shape))
+    c = np.zeros(shape=(rowsA, columnsB))
+    for i in range(0, rowsA):
+        for j in range (0, columnsB):
+            for k in range (0, rowsB):
+                c[j, i] = c[j, i] + a_sub[j, k]*b_sub[k, i]
+    return (c)
+
+def obtenerParte(nombre_matriz):
+    nombre_matriz = nombre_matriz[1:]
+    nombre_matriz = nombre_matriz.replace('_matrix_part_', '')
+    return nombre_matriz
+
+def mapFunctionDistr(a_submatrix, b_submatrix):
+    #print ("hay " + a_submatrix)
     a_sub = obtenerMatriz('deposit-sd-2020', a_submatrix[0])
     b_sub = obtenerMatriz('deposit-sd-2020', b_submatrix[0])
     columns = a_sub.shape[0]
     rows = b_sub.shape[1]
     c = np.zeros(shape=(rows,columns))
     for i in range(0, len(a_sub)):
+        #print ("A part" + str(i))
         for j in range (0, len(b_sub)):
-            for k in range (0, len(c)):
+            #print ("B part" + str(j))
+            for k in range (0, len(c)-1):
+                #print (f"I: {i}, J: {j}, K {k}")
                 c[j, i] = c[j, i] + a_sub[j, k]*b_sub[k, i]
-    return c
+    a_part = obtenerParte(a_submatrix[0])
+    b_part = obtenerParte(b_submatrix[0])
+    return (c, a_part, b_part)
