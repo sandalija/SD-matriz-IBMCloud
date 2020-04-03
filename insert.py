@@ -10,10 +10,6 @@ def crearMatriz(fila, col, maxValue):
     random_matrix_array = np.random.randint(0,maxValue,size=(fila,col))
     return random_matrix_array
 
-def comprobarRangos(matriz1, matriz2):
-    print (matriz1.shape)
-    print ("Filas de 1" + str(a))
-
 def guardarMatriz(matriz, name_matrix):
     cos = COS_Backend()
     bucket = 'deposit-sd-2020'
@@ -30,11 +26,9 @@ def asyncGuardarMatriz(matriz, name_matrix):
 # Invoca a guardarMatrix(..) por cada worker.
 # Retorna una lista con los nombres de los ficheros que contiene cada parte de la matriz
 # en IBM COS
-def dividirMatriz(matriz, n_workers, transpose):
-    stamp = 'A' # ID de la matriz
+def dividirMatriz(matriz, n_workers, transpose, stamp):
     if (transpose):     # Si es la segunda matriz, giramos las filas por columnas
         matriz = matriz.transpose()
-        stamp = 'B'
     root_name = '_matrix_part_'
     submatrix_len = matriz.shape[1]
     i = 0

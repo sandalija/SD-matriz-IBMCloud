@@ -26,6 +26,7 @@ for a_elem in a_matrix_list:
 # Retorna el número de fragments que habrá según el inidcado
 def adaptarNumWorkers(n, cols, rows):
     i = True
+    if (n > 100): n = 100
     while (cols*rows > n):
         if (i): cols = cols-1
         else: rows = rows-1

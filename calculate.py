@@ -62,10 +62,10 @@ def callWorkerFuncion(n_workers, bucket, keyMatriz1, keyMatriz2):
 def map_function(a_submatrix, b_submatrix):
     a_sub = obtenerMatriz('deposit-sd-2020', a_submatrix)
     b_sub = obtenerMatriz('deposit-sd-2020', b_submatrix)
-    """print ("A matrix")
+    """ print ("A matrix")
     print (a_sub)
     print ("B matrix")
-    print (b_sub)"""
+    print (b_sub) """
     result = 0
     for i in range(0, len(a_sub)):
         result = a_sub[i]*b_sub[i] + result
@@ -75,13 +75,14 @@ def map_function(a_submatrix, b_submatrix):
 def mapFunctionSecuencial(a_submatrix, b_submatrix):
     a_sub = obtenerMatriz('deposit-sd-2020', a_submatrix)
     b_sub = obtenerMatriz('deposit-sd-2020', b_submatrix)
-    print ("A shape " + str(a_sub.shape))
-    print ("B shape "+ str(b_sub.shape))
-    c = np.zeros(shape=(rowsA, columnsB))
+    rowsA = a_sub.shape[0]
+    rowsB = b_sub.shape[0]
+    columnsB = b_sub.shape[1]
+    c = np.zeros(shape=(rowsA, rowsB))
     for i in range(0, rowsA):
-        for j in range (0, columnsB):
-            for k in range (0, rowsB):
-                c[j, i] = c[j, i] + a_sub[j, k]*b_sub[k, i]
+        for j in range (0, rowsB):
+            for k in range (0, columnsB):
+                c[i, j] = c[i, j] + a_sub[i, k]*b_sub[j, k]
     return (c)
 
 def obtenerParte(nombre_matriz):
