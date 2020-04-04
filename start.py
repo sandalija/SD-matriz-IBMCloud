@@ -35,38 +35,39 @@ def adaptarNumWorkers(n, cols, rows):
 
 
 ## SECUENCIAL
-a = i.crearMatriz(4, 4, 10)
-print ("A original")
-print (a)
+"""a = i.crearMatriz(4, 4, 10)
 b = i.crearMatriz(4, 4, 10)
-print ("B original")
-print (b)
-a_matrix_list = i.dividirMatriz(a, 1, False)
-b_matrix_list = i.dividirMatriz(b, 1, False) # True para trasponerla 
+a_matrix_list = i.dividirMatriz(a, 1, False, 'A')
+b_matrix_list = i.dividirMatriz(b, 1, True, 'B') # True para trasponerla 
 pw = pywren.ibm_cf_executor()
-pw.map(c.mapFunctionSecuencial, (a_matrix_list, b_matrix_list))
+pw.map(c.mapFunctionSecuencial, (a_matrix_list[0], b_matrix_list[0]))
 print(pw.get_result())
-pw.clean()
+pw.clean()"""
 
-"""
+
 ## PARALELA
-a = i.crearMatriz(4, 4, 10)
-print ("A original")
+a = i.crearMatriz(3, 5, 10)
+b = i.crearMatriz(5, 4, 10)
+print ("A")
 print (a)
-b = i.crearMatriz(4, 4, 10)
-print ("B original")
+print ("B")
 print (b)
 n = int(input("Numbers of workers: "))
-m = adaptarNumWorkers(n, 4, 4)
-a_matrix_list = i.dividirMatriz(a, m[0], False)
-b_matrix_list = i.dividirMatriz(b, m[1], True) # True para trasponerla
+m = adaptarNumWorkers(n, 7, 4)
+a_matrix_list = i.dividirMatriz(a, m[0], False, 'A')
+b_matrix_list = i.dividirMatriz(b, m[1], True, 'B') # True para trasponerla
 print ("Lista de A: " + str(a_matrix_list))
 print ("Lista de B: " + str(b_matrix_list))
 pw = pywren.ibm_cf_executor()
 # map reduce y tal
 # map está hecha
 # reduce juntaria submatrices
-pw.map_reduce(c.mapFunctionDistr, (a_matrix_list, b_matrix_list), r.reduceCapture)
+params = []
+for i in range(0, len(a_matrix_list)):
+    for j in (range(0, len(b_matrix_list))):
+        params.append((a_matrix_list[i], b_matrix_list[j], (a.shape[0], b.shape[1])))
+print ("\n\n" + str(params) + "\n\n")
+pw.map_reduce(c.mapFunctionDistr, params, r.reduceCapture)
 print(pw.get_result())
-pw.clean()"""
+pw.clean()
 print ("FIN")
