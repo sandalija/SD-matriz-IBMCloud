@@ -34,8 +34,8 @@ def adaptarNumWorkers(n, cols, rows):
     return (cols, rows)
 
 
-## SECUENCIAL
-"""a = i.crearMatriz(4, 4, 10)
+"""## SECUENCIAL
+a = i.crearMatriz(4, 4, 10)
 b = i.crearMatriz(4, 4, 10)
 a_matrix_list = i.dividirMatriz(a, 1, False, 'A')
 b_matrix_list = i.dividirMatriz(b, 1, True, 'B') # True para trasponerla 
@@ -48,26 +48,32 @@ pw.clean()"""
 ## PARALELA
 a = i.crearMatriz(3, 5, 10)
 b = i.crearMatriz(5, 4, 10)
-print ("A")
+"""print ("A")
 print (a)
 print ("B")
-print (b)
+print (b)"""
 n = int(input("Numbers of workers: "))
-m = adaptarNumWorkers(n, 7, 4)
-a_matrix_list = i.dividirMatriz(a, m[0], False, 'A')
-b_matrix_list = i.dividirMatriz(b, m[1], True, 'B') # True para trasponerla
-print ("Lista de A: " + str(a_matrix_list))
-print ("Lista de B: " + str(b_matrix_list))
-pw = pywren.ibm_cf_executor()
-# map reduce y tal
-# map está hecha
-# reduce juntaria submatrices
-params = []
-for i in range(0, len(a_matrix_list)):
-    for j in (range(0, len(b_matrix_list))):
-        params.append((a_matrix_list[i], b_matrix_list[j], (a.shape[0], b.shape[1])))
-print ("\n\n" + str(params) + "\n\n")
-pw.map_reduce(c.mapFunctionDistr, params, r.reduceCapture)
+if (n is not 1): 
+    m = adaptarNumWorkers(n, 7, 4)
+    a_matrix_list = i.dividirMatriz(a, m[0], False, 'A')
+    b_matrix_list = i.dividirMatriz(b, m[1], True, 'B') # True para trasponerla
+    """print ("Lista de A: " + str(a_matrix_list))
+    print ("Lista de B: " + str(b_matrix_list))"""
+    pw = pywren.ibm_cf_executor()
+    # map reduce y tal
+    # map está hecha
+    # reduce juntaria submatrices
+    params = []
+    for i in range(0, len(a_matrix_list)):
+        for j in (range(0, len(b_matrix_list))):
+            params.append((a_matrix_list[i], b_matrix_list[j], (a.shape[0], b.shape[1])))
+    print ("\n\n" + str(params) + "\n\n")
+    pw.map_reduce(c.mapFunctionDistr, params, r.reduceCapture)
+else:
+    a_matrix_list = i.dividirMatriz(a, 1, False, 'A')
+    b_matrix_list = i.dividirMatriz(b, 1, True, 'B') # True para trasponerla 
+    pw = pywren.ibm_cf_executor()
+    pw.map(c.mapFunctionSecuencial, (a_matrix_list[0], b_matrix_list[0]))
 print(pw.get_result())
 pw.clean()
 print ("FIN")
