@@ -61,7 +61,7 @@ def adaptarNumWorkers(n, cols, rows):
         rows = int(sq)
     else:
         cols = int(sq)
-        rows = int(sq) - 1
+        rows = int(sq) + 1
     print (f"cols: {cols}, rows: {rows}")
     return (cols, rows)
     """ i = True
