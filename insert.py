@@ -31,7 +31,7 @@ def dividirMatriz(matriz, n_workers, transpose, stamp, bucket):
     if (transpose):     # Si es la segunda matriz, giramos las filas por columnas
         matriz = matriz.transpose()
     root_name = '_matrix_part_'
-    submatrix_len = matriz.shape[1]
+    submatrix_len = matriz.shape[0]
     i = 0
     m = 0
     name_matrix = ''

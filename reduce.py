@@ -13,11 +13,14 @@ def reduceCapture(results):
     for r in results:
         m = r[0]
         values = np.array(m)
-        row = r[3][0]
-        col = r[3][1]
+        row = r[3][1]
+        col = r[3][0]
         for v in values:
             for x in v:
-                matrix.append(x)
+                if (type(x) is list): 
+                    for n in x:
+                        matrix.append(n)
+                else: matrix.append(x)
     matrix = np.array(matrix)
     matrix = np.reshape(matrix, (row, col))
     return (matrix)
