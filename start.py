@@ -49,8 +49,11 @@ elapsed_time = t.time() - start_time
 print("Seconds: %.3f" % elapsed_time)
 pw.clean() """
 
-def adaptarNumWorkers(n, cols, rows):
-    if (n > 100): n = 100
+def adaptarNumWorkers(n, rows):
+    if (n > rows): n = rows
+    elif (n > 100): n = 100
+    return (n)
+    """ if (n > 100): n = 100
     if (cols*rows < n): n = cols*rows
     sq = math.sqrt(n)
     print (f"SQ: {sq}")
@@ -63,7 +66,7 @@ def adaptarNumWorkers(n, cols, rows):
         cols = int(sq)
         rows = int(sq) + 1
     print (f"cols: {cols}, rows: {rows}")
-    return (cols, rows)
+    return (cols, rows) """
     """ i = True
     if (n > 100): n = 100
     while (cols*rows > n):
@@ -76,28 +79,28 @@ v = int(input("Max Value:"))
 m = int(input("A Rows: "))
 n = int(input("A Columns / B Rows: "))
 l = int(input("B Columns: "))
-""" a = i.crearMatriz(m, n, v)
-b = i.crearMatriz(n, l, v) """
-a = np.matrix([[1, 2, 3, 4],  [1, 2, 3, 4], [1, 2, 3, 4], [1, 2, 3, 4]])
-b = np.matrix([[5, 6, 7, 8], [5, 6, 7, 8], [5, 6, 7, 8], [5, 6, 7, 8]])
+a = i.crearMatriz(m, n, v)
+b = i.crearMatriz(n, l, v)
 w = int(input("Workers: "))
 print ("A")
 print (a)
 print ("B")
 print (b)
 start_time = t.time()
-if (w is not 1): 
-    wk = adaptarNumWorkers(w, l, m)
+if (n is not 1): 
+    wk = adaptarNumWorkers(w, m)
+    print (f"\n\n*******\nN: {wk} \n*******\n")
     #wk = (10, 9)
-    a_matrix_list = i.dividirMatriz(a, wk[0], False, 'A', bucket)
-    b_matrix_list = i.dividirMatriz(b, wk[1], True, 'B', bucket) # True para trasponerla
+    a_matrix_list = i.dividirMatriz(a, wk, False, 'A', bucket)
+    # b = b.transpose()
+    # b_matrix_list = i.dividirMatriz(b, wk[1], True, 'B', bucket) # True para trasponerla
+    i.asyncGuardarMatriz(b, 'B_matrix', bucket)
     print (a_matrix_list)
-    print (b_matrix_list)
     pw = pywren.ibm_cf_executor()
     params = []
     for i in range(0, len(a_matrix_list)):
-        for j in (range(0, len(b_matrix_list))):
-            params.append((a_matrix_list[i], b_matrix_list[j], (l, m), bucket))
+        #for j in (range(0, len(b_matrix_list))):
+        params.append((a_matrix_list[i], 'B_matrix', (l, m), bucket))
             # c.mapFunction(a_matrix_list[i], b_matrix_list[j], (m, l), bucket)
     print ("\n\n" + str(params) + "\n\n")
     futures = pw.map_reduce(c.mapFunction, params, r.reduceCapture)

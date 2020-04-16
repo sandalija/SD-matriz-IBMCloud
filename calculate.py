@@ -24,7 +24,5 @@ def mapFunction(a_submatrix, b_submatrix, resultDimension, bucket):
     for i in range(0, rowsA):
         for j in range (0, rowsB):
             for k in range (0, columnsB):
-                c[i, j] = c[i, j] + a_sub[i, k]*b_sub[j, k]
-    a_part = obtenerParte(a_submatrix)
-    b_part = obtenerParte(b_submatrix)
-    return (c, a_part, b_part, rowsA, rowsB, resultDimension)
+                c[i, j] = c[i, j] + a_sub[i, k]*b_sub[k, j]
+    return (c, rowsA, rowsB, resultDimension)
