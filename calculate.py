@@ -20,9 +20,9 @@ def mapFunction(a_submatrix, b_submatrix, resultDimension, bucket):
     rowsA = a_sub.shape[0]
     rowsB = b_sub.shape[0]
     columnsB = b_sub.shape[1]
-    c = np.zeros(shape=(rowsA, rowsB))
+    c = np.zeros(shape=(rowsA, columnsB))
     for i in range(0, rowsA):
-        for j in range (0, rowsB):
-            for k in range (0, columnsB):
+        for j in range (0, columnsB):
+            for k in range (0, rowsB):
                 c[i, j] = c[i, j] + a_sub[i, k]*b_sub[k, j]
-    return (c, rowsA, rowsB, resultDimension)
+    return (c, resultDimension)

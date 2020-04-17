@@ -13,8 +13,8 @@ def reduceCapture(results):
     for r in results:
         m = r[0]
         values = np.array(m)
-        row = r[3][1]
-        col = r[3][0]
+        row = r[1][1]
+        col = r[1][0]
         for v in values:
             for x in v:
                 if (type(x) is list): 
@@ -24,3 +24,4 @@ def reduceCapture(results):
     matrix = np.array(matrix)
     matrix = np.reshape(matrix, (row, col))
     return (matrix)
+

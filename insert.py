@@ -28,11 +28,10 @@ def asyncGuardarMatriz(matriz, name_matrix, bucket):
 # Retorna una lista con los nombres de los ficheros que contiene cada parte de la matriz
 # en IBM COS
 def dividirMatriz(matriz, n_workers, transpose, stamp, bucket):
-    if (transpose):     # Si es la segunda matriz, giramos las filas por columnas
+    if (transpose):    
         matriz = matriz.transpose()
     root_name = '_matrix_part_'
     submatrix_len = matriz.shape[0]
-    m = 0
     name_matrix = ''
     list_matrix = []    # lista con los nombres de las martices en el IBM Cloud COS
     list = []
@@ -43,18 +42,14 @@ def dividirMatriz(matriz, n_workers, transpose, stamp, bucket):
         sum = sum + l
     pos = 0
     while (sum < submatrix_len):
-        print (f"POS: {pos}")
         list[pos] = list[pos] + 1
         pos = (pos + 1) % n_workers
         sum = sum + 1
-    # while i < submatrix_len:
-    print ("LISTA")
-    print (list)
     i = 0
+    m = 0
     for l in list:
         name_matrix = stamp + root_name + str(m)
         list_matrix.append(name_matrix)
-        print (f"I: {i}, l+i: {l+i}")
         submatrix = matriz[i:l+i,:]
         print ("Inserting submatrix " + name_matrix + "\trange " + \
            str(i) + " to " + str(int(submatrix_len/n_workers)+i - 1))
